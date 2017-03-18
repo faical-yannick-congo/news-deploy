@@ -1,0 +1,37 @@
+[db]
+dbhost ansible_ssh_host=10.0.2.15
+
+[db:vars]
+db_name=news-integrate
+mapped_port=27017
+
+[news]
+newshost ansible_ssh_host=10.0.2.15
+
+[news:vars]
+mapped_port=5200
+test_path=http://10.0.2.15:5200/sms/services/news/v0.1/radios/country/all
+app_service_name=news
+socket_file=/tmp/news.sock
+access_log=/var/log/sms-service-news-access.log
+error_log=/var/log/sms-service-news-error.log
+gunicorn_config_file=sms_config_news.py
+
+[all:children]
+db
+news
+
+[all:vars]
+mode=http
+
+backend_env=news-backend
+backend_version=master
+backend_repo=faical-yannick-congo/news-backend
+anacondadir=anaconda
+debug=True
+env_type=development
+ansible_ssh_private_key_file=
+ansible_connection=local
+ansible_ssh_user=fyc
+backend_location=/home/fyc/sms-services
+ssl_location=/home/fyc/sms-news-ssl

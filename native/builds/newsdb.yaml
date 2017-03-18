@@ -1,0 +1,9 @@
+- name: install newsdb
+  shell: "{{ env_path }}/python setup.py install"
+  args:
+    chdir: "{{ backend_path }}/news-db"
+
+- name: check import newsdb
+  shell: "{{ python }} -c \"import newsdb\""
+  args:
+    chdir: "{{ backend_path }}/news-db"
